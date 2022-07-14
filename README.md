@@ -16,4 +16,6 @@ DbContext configutarions were done, migrations were successfully made and server
 
 # Tools used
 
-- Currently using Visual Studio 2022
+- Visual Studio 2022, as IDE
+- Entity Framework, for migrations
+- Docker, to set up connection with SQL Server
