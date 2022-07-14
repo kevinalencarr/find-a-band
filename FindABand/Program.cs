@@ -1,14 +1,26 @@
+using FindABand.Data;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+var sqlConBuilder = new SqlConnectionStringBuilder();
+
+sqlConBuilder.ConnectionString = builder.Configuration.GetConnectionString("SQLDbConnection");
+sqlConBuilder.UserID = builder.Configuration["DbUserId"];
+sqlConBuilder.Password = builder.Configuration["DbPassword"];
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(sqlConBuilder.ConnectionString));
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    app.UseExceptionHandler("/Home/Error"); 
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
