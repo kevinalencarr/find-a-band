@@ -9,22 +9,21 @@ namespace FindABand.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
-        public string? Title { get; set; }
+        public string Title { get; set; }
 
-        public string? Description { get; set; }
+        public string Description { get; set; }
 
         public string? Image { get; set; }
 
         [ForeignKey("Address")]
         public int AddressId { get; set; }
 
-        public Address? Address { get; set; }
+        public Address Address { get; set; }
 
         public AdCategory AdCategory { get; set; }
 
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public string? UserId { get; set; }
 
         public User? User { get; set; }
     }

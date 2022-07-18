@@ -17,6 +17,12 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(sqlC
 
 var app = builder.Build();
 
+if (args.Length == 1 && args[0].ToLower() == "seeddata")
+{
+    // Seed.SeedUsersAndRolesAsync(app);
+    Seed.SeedData(app);
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

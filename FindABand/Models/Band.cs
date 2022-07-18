@@ -9,7 +9,6 @@ namespace FindABand.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
         public string? Name { get; set; }
 
         public string? Bio { get; set; }
@@ -17,14 +16,14 @@ namespace FindABand.Models
         public string? Image { get; set; }
 
         [ForeignKey("Address")]
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
 
         public Address? Address { get; set; }
 
         public BandGenre BandGenre { get; set; }
 
         [ForeignKey("User")]
-        public int UserId { get; set; }
+        public string? UserId { get; set; }
 
         public User? User { get; set; }
     }
