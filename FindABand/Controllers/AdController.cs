@@ -1,6 +1,7 @@
 ﻿using FindABand.Data;
 using FindABand.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace FindABand.Controllers
 {
@@ -16,6 +17,12 @@ namespace FindABand.Controllers
         {
             List<Ad> ads = _context.Ads.ToList();
             return View(ads);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            Ad ad = _context.Ads.Include(a => a.Address).FirstOrDefault(d => d.Id == id);
+            return View(ad);
         }
     }
 }
