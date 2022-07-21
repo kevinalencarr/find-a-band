@@ -1,5 +1,6 @@
 ﻿using FindABand.Data;
 using FindABand.Models;
+using FindABand.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,22 +8,22 @@ namespace FindABand.Controllers
 {
     public class BandController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IBandRepository _bandRepository;
 
-        public BandController(AppDbContext context)
+        public BandController(IBandRepository bandRepository)
         {
-            _context = context;
+            _bandRepository = bandRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Band> bands = _context.Bands.ToList();
+            IEnumerable<Band> bands = await _bandRepository.GetAllBandsAsync();
             return View(bands);
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            Band band = _context.Bands.Include(a => a.Address).FirstOrDefault(b => b.Id == id);
+            Band band = await _bandRepository.GetBandByIdAsync(id);
             return View(band);
         }
     }

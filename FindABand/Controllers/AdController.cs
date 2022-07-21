@@ -1,5 +1,6 @@
 ﻿using FindABand.Data;
 using FindABand.Models;
+using FindABand.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,21 +8,22 @@ namespace FindABand.Controllers
 {
     public class AdController : Controller
     {
-        private readonly AppDbContext _context;
 
-        public AdController(AppDbContext context)
+        private readonly IAdRepository _adRepository;
+
+        public AdController(IAdRepository adRepository)
         {
-            _context = context;
+            _adRepository = adRepository;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Ad> ads = _context.Ads.ToList();
+            IEnumerable<Ad> ads = await _adRepository.GetAllAdsAsync();
             return View(ads);
         }
 
-        public IActionResult Detail(int id)
+        public async Task<IActionResult> Detail(int id)
         {
-            Ad ad = _context.Ads.Include(a => a.Address).FirstOrDefault(d => d.Id == id);
+            Ad ad = await _adRepository.GetAdByIdAsync(id);
             return View(ad);
         }
     }
