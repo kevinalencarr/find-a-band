@@ -17,7 +17,7 @@ DbContext configurations were done, migrations were successfully made and server
 ### 3. Controllers and Views added
 Controllers for *bands* and *ads* were made, as well as the Views for these pages. Data was seeded to test the Views.
 
-### 4. Repositores created
+### 4. Repositories created
 Repositories for *bands* and *ads* were made, later refactored into Controllers and injected into Program file.
 
 # Tools used
