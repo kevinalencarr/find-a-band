@@ -31,3 +31,4 @@ Used Cloudinary to enable photo upload while creating new *bands* and *ads*. Set
 - Visual Studio 2022, as IDE
 - Entity Framework, for migrations
 - Docker, to set up connection with SQL Server
+- Cloudinary, to enable image upload
