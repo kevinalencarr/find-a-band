@@ -20,6 +20,9 @@ Controllers for *bands* and *ads* were made, as well as the Views for these page
 ### 4. Repositories created
 Repositories for *bands* and *ads* were made, later refactored into Controllers and injected into Program file.
 
+### 5. Create methods added
+Methods to create new *bands* and *ads* are now functional.
+
 # Tools used
 
 - Visual Studio 2022, as IDE
