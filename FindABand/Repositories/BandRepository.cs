@@ -33,7 +33,7 @@ namespace FindABand.Repositories
             if (band == null)
                 throw new ArgumentNullException(nameof(band));
 
-            await _context.AddAsync(band);
+            await _context.AddAsync(band);            
         }
 
         // REDO UPDATE METHOD

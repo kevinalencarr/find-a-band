@@ -26,5 +26,23 @@ namespace FindABand.Controllers
             Band band = await _bandRepository.GetBandByIdAsync(id);
             return View(band);
         }
+
+        public IActionResult CreateBand()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateBand(Band band)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(band);
+            }
+
+            await _bandRepository.CreateBandAsync(band);
+            await _bandRepository.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
     }
 }
