@@ -23,6 +23,9 @@ Repositories for *bands* and *ads* were made, later refactored into Controllers 
 ### 5. Create methods added
 Methods to create new *bands* and *ads* are now functional.
 
+### 6. Photo upload added
+Used Cloudinary to enable photo upload while creating new *bands* and *ads*. Settings were stored with user-secrets. Still needs to config image sizes and crops.
+
 # Tools used
 
 - Visual Studio 2022, as IDE
