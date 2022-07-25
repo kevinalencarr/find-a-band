@@ -1,5 +1,6 @@
 ﻿@using FindABand.Data.Enums
-@model Band
+@using FindABand.ViewModels
+@model CreateBandViewModel
 
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -7,7 +8,7 @@
 @{
 }
 
-<form method="post" asp-action="CreateBand">
+<form method="post" asp-action="CreateBand" enctype="multipart/form-data">
   <div class="form-group">
     <label asp-for="Name">Name</label>
     <input asp-for="Name" class="form-control" placeholder="Enter name">
@@ -20,7 +21,7 @@
   </div>
   <div class="form-group">
     <label asp-for="Image">Image</label>
-    <input asp-for="Image" class="form-control" placeholder="Upload image">
+    <input asp-for="Image" type="file" class="form-control" placeholder="Upload image">
     <span asp-validation-for="Image" class="text-danger"></span>
   </div>
   <div class="form-group">

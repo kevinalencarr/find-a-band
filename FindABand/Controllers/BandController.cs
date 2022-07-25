@@ -1,6 +1,8 @@
 ﻿using FindABand.Data;
 using FindABand.Models;
 using FindABand.Repositories;
+using FindABand.Services;
+using FindABand.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +11,12 @@ namespace FindABand.Controllers
     public class BandController : Controller
     {
         private readonly IBandRepository _bandRepository;
+        private readonly IPhotoService _photoService;
 
-        public BandController(IBandRepository bandRepository)
+        public BandController(IBandRepository bandRepository, IPhotoService photoService)
         {
             _bandRepository = bandRepository;
+            _photoService = photoService;
         }
 
         public async Task<IActionResult> Index()
@@ -33,16 +37,37 @@ namespace FindABand.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateBand(Band band)
+        public async Task<IActionResult> CreateBand(CreateBandViewModel bandViewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(band);
+                var result = await _photoService.AddPhotoAsync(bandViewModel.Image);
+
+                var band = new Band
+                {
+                    Name = bandViewModel.Name,
+                    Bio = bandViewModel.Bio,
+                    Image = result.Url.ToString(),
+                    Address = new Address
+                    {
+                        Street = bandViewModel.Address.Street,
+                        City = bandViewModel.Address.City,
+                        State = bandViewModel.Address.State
+                    }
+                };
+
+                await _bandRepository.CreateBandAsync(band);
+
+                await _bandRepository.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Photo upload failed");
             }
 
-            await _bandRepository.CreateBandAsync(band);
-            await _bandRepository.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return View(bandViewModel);
         }
     }
 }

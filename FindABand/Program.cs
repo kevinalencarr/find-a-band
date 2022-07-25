@@ -1,5 +1,7 @@
 using FindABand.Data;
+using FindABand.Helpers;
 using FindABand.Repositories;
+using FindABand.Services;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +11,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddScoped<IBandRepository, BandRepository>();
 builder.Services.AddScoped<IAdRepository, AdRepository>();
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
+builder.Services.AddScoped<IPhotoService, PhotoService>();
 
 var sqlConBuilder = new SqlConnectionStringBuilder();
 

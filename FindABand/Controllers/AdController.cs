@@ -1,6 +1,8 @@
 ﻿using FindABand.Data;
 using FindABand.Models;
 using FindABand.Repositories;
+using FindABand.Services;
+using FindABand.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,10 +11,12 @@ namespace FindABand.Controllers
     public class AdController : Controller
     {
         private readonly IAdRepository _adRepository;
+        private readonly IPhotoService _photoService;
 
-        public AdController(IAdRepository adRepository)
+        public AdController(IAdRepository adRepository, IPhotoService photoService)
         {
             _adRepository = adRepository;
+            _photoService = photoService;
         }
 
         public async Task<IActionResult> Index()
@@ -33,16 +37,37 @@ namespace FindABand.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateAd(Ad ad)
+        public async Task<IActionResult> CreateAd(CreateAdViewModel adViewModel)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                return View(ad);
+                var result = await _photoService.AddPhotoAsync(adViewModel.Image);
+
+                var ad = new Ad
+                {
+                    Title = adViewModel.Title,
+                    Description = adViewModel.Description,
+                    Image = result.Url.ToString(),
+                    Address = new Address
+                    {
+                        Street = adViewModel.Address.Street,
+                        City = adViewModel.Address.City,
+                        State = adViewModel.Address.State
+                    }
+                };
+
+                await _adRepository.CreateAdAsync(ad);
+
+                await _adRepository.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Photo upload failed");
             }
 
-            await _adRepository.CreateAdAsync(ad);
-            await _adRepository.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return View(adViewModel);
         }
     }
 }
