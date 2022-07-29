@@ -7,9 +7,9 @@ With Find-A-Band, musicians can find ads for bands currently looking for new mem
 # Steps taken (so far)
 
 ### This is a work in progress! ###
-Updates will be put here as development takes its course.
+- Updates will be put here as development takes its course.
 
-Front-end design is not a concern right now, so everything still looks a little clumsy.
+- Front-end design is not a concern right now, so everything still looks a little clumsy.
 
 ### 1. Models created
 Models were made for *users*, *bands*, *addresses* and *ads*. Also, enums for *ad categories* and *band genres* were created.
