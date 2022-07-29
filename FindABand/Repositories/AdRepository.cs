@@ -23,6 +23,11 @@ namespace FindABand.Repositories
             return await _context.Ads.Include(i => i.Address).FirstOrDefaultAsync(a => a.Id == id);
         }
 
+        public async Task<Ad?> GetAdByIdAsyncNoTracking(int id)
+        {
+            return await _context.Ads.Include(i => i.Address).AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
+        }
+
         public async Task<IEnumerable<Ad>> GetAllsAdByCityAsync(string city)
         {
             return await _context.Ads.Where(c => c.Address.City.Contains(city)).ToListAsync();
@@ -36,8 +41,7 @@ namespace FindABand.Repositories
             await _context.AddAsync(ad);
         }
 
-        // REDO UPDATE METHOD
-        public bool UpdateAdAsync(Ad ad)
+        public bool UpdateAd(Ad ad)
         {
             var saved = _context.SaveChanges();
 
@@ -45,9 +49,8 @@ namespace FindABand.Repositories
 
             return saved > 0 ? true : false;
         }
-        //
 
-        public void DeleteAdAsync(Ad ad)
+        public void DeleteAd(Ad ad)
         {
             _context.Remove(ad);
         }

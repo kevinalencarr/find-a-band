@@ -23,6 +23,11 @@ namespace FindABand.Repositories
             return await _context.Bands.Include(i => i.Address).FirstOrDefaultAsync(b => b.Id == id);
         }
 
+        public async Task<Band?> GetBandByIdAsyncNoTracking(int id)
+        {
+            return await _context.Bands.Include(i => i.Address).AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
+        }
+
         public async Task<IEnumerable<Band>> GetBandByCityAsync(string city)
         {
             return await _context.Bands.Where(c => c.Address.City.Contains(city)).ToListAsync();
@@ -45,9 +50,8 @@ namespace FindABand.Repositories
 
             return saved > 0 ? true : false;
         }
-        //
 
-        public void DeleteBandAsync(Band band)
+        public void DeleteBand(Band band)
         {
             if (band == null)
                 throw new ArgumentNullException(nameof(band));

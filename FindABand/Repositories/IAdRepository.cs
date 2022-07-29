@@ -10,12 +10,14 @@ namespace FindABand.Repositories
 
         Task<Ad?> GetAdByIdAsync(int id);
 
+        Task<Ad?> GetAdByIdAsyncNoTracking(int id);
+
         Task<IEnumerable<Ad>> GetAllsAdByCityAsync(string city);
 
         Task CreateAdAsync(Ad ad);
 
-        bool UpdateAdAsync(Ad ad);
+        bool UpdateAd(Ad ad);
 
-        void DeleteAdAsync(Ad ad);
+        void DeleteAd(Ad ad);
     }
 }

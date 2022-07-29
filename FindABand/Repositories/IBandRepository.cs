@@ -8,13 +8,15 @@ namespace FindABand.Repositories
 
         Task<Band?> GetBandByIdAsync(int id);
 
+        Task<Band?> GetBandByIdAsyncNoTracking(int id);
+
         Task<IEnumerable<Band>> GetBandByCityAsync(string city);
 
         Task CreateBandAsync(Band band);
 
         bool UpdateBand(Band band);
 
-        void DeleteBandAsync(Band band);
+        void DeleteBand(Band band);
 
         Task SaveChangesAsync();
     }
