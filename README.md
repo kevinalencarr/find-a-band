@@ -32,6 +32,9 @@ Used Cloudinary to enable photo upload while creating new *bands* and *ads*. Set
 ### 7. Edit and Delete methods added
 We can now edit and delete *bands* and *ads*.
 
+### 8. User and Login features added
+Using Identity Framework, logging in to the page is now possible.
+
 # Tools used
 
 - Visual Studio 2022, as IDE
