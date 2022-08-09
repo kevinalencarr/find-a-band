@@ -35,6 +35,9 @@ We can now edit and delete *bands* and *ads*.
 ### 8. User and Login features added
 Using Identity Framework, logging in to the page is now possible.
 
+### 9. User dashboard added
+Users have now access to a dashboard they can use to create *ads* and *bands*. Edit and delete options are now only accessible when logged in, and user can only see their own creations.
+
 # Tools used
 
 - Visual Studio 2022, as IDE
