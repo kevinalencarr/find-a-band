@@ -52,5 +52,47 @@ namespace FindABand.Controllers
             TempData["Error"] = "User not found. Please, try again.";
             return View(loginViewModel);
         }
+
+        [HttpGet]
+        public IActionResult Register()
+        {
+            var response = new RegisterViewModel();
+            return View(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        {
+            if (!ModelState.IsValid) return View(registerViewModel);
+
+            var user = await _userManager.FindByEmailAsync(registerViewModel.EmailAddress);
+            if (user != null)
+            {
+                TempData["Error"] = "This email address is already in use";
+                return View(registerViewModel);
+            }
+
+            var newUser = new User()
+            {
+                Email = registerViewModel.EmailAddress,
+                UserName = registerViewModel.EmailAddress
+            };
+            var newUserResponse = await _userManager.CreateAsync(newUser, registerViewModel.Password);
+            // passwords need to have capital case, numbers and symbols, like: Coding@1234. This SHOULD be fixed.
+
+            if (newUserResponse.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(newUser, UserRoles.User);
+            }
+
+            return RedirectToAction("Index", "Ad");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Ad");
+        }
     }
 }

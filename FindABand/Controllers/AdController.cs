@@ -12,11 +12,13 @@ namespace FindABand.Controllers
     {
         private readonly IAdRepository _adRepository;
         private readonly IPhotoService _photoService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AdController(IAdRepository adRepository, IPhotoService photoService)
+        public AdController(IAdRepository adRepository, IPhotoService photoService, IHttpContextAccessor httpContextAccessor)
         {
             _adRepository = adRepository;
             _photoService = photoService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -33,7 +35,10 @@ namespace FindABand.Controllers
 
         public IActionResult CreateAd()
         {
-            return View();
+            var currentUserId = _httpContextAccessor.HttpContext?.User.GetUserId();
+            var createAdViewModel = new CreateAdViewModel { UserId = currentUserId };
+
+            return View(createAdViewModel);
         }
 
         [HttpPost]
@@ -48,6 +53,7 @@ namespace FindABand.Controllers
                     Title = adViewModel.Title,
                     Description = adViewModel.Description,
                     Image = result.Url.ToString(),
+                    UserId = adViewModel.UserId,
                     Address = new Address
                     {
                         Street = adViewModel.Address.Street,

@@ -2,13 +2,9 @@
 @using FindABand.ViewModels
 @model CreateBandViewModel
 
-@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-
 <form method="post" asp-action="CreateBand" enctype="multipart/form-data">
+    <input type="hidden" id="UserId" name="UserId" asp-for="UserId"/>
+
   <div class="form-group">
     <label asp-for="Name">Name</label>
     <input asp-for="Name" class="form-control" placeholder="Enter name">

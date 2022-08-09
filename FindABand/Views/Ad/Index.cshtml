@@ -18,10 +18,13 @@
                         <div class="btn-group">
                             <a type="btn btn-success" asp-controller="Ad" asp-action="Detail" asp-route-id="@item.Id"
                                 class="btn btn-sm btn-outline-secondary">View</a>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                            {
                             <a type="btn btn-success" asp-controller="Ad" asp-action="EditAd" asp-route-id="@item.Id"
                                 class="btn btn-sm btn-outline-secondary">Edit</a>
                             <a type="btn btn-success" asp-controller="Ad" asp-action="DeleteAd" asp-route-id="@item.Id"
                                 class="btn btn-sm btn-outline-secondary">Delete</a>
+                            }
                         </div>
                         <small class="text-muted">@item.AdCategory</small>
                         </div>

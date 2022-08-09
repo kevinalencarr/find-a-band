@@ -10,13 +10,17 @@ namespace FindABand.Controllers
 {
     public class BandController : Controller
     {
+        private readonly AppDbContext _context;
         private readonly IBandRepository _bandRepository;
         private readonly IPhotoService _photoService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public BandController(IBandRepository bandRepository, IPhotoService photoService)
+        public BandController(AppDbContext context, IBandRepository bandRepository, IPhotoService photoService, IHttpContextAccessor httpContextAccessor)
         {
+            _context = context;
             _bandRepository = bandRepository;
             _photoService = photoService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<IActionResult> Index()
@@ -33,7 +37,10 @@ namespace FindABand.Controllers
 
         public IActionResult CreateBand()
         {
-            return View();
+            var currentUserId = _httpContextAccessor.HttpContext.User.GetUserId();
+            var createBandViewModel = new CreateBandViewModel { UserId = currentUserId };
+            
+            return View(createBandViewModel);
         }
 
         [HttpPost]
@@ -48,6 +55,7 @@ namespace FindABand.Controllers
                     Name = bandViewModel.Name,
                     Bio = bandViewModel.Bio,
                     Image = result.Url.ToString(),
+                    UserId = bandViewModel.UserId,
                     Address = new Address
                     {
                         Street = bandViewModel.Address.Street,
